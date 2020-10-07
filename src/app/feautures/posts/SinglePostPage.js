@@ -1,19 +1,16 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { PostAuthor } from './postAuthor'
 
-//Реакт роутер передает объект {match} как свойство, содержащее URL, который нам нужен. Когда мы настраиваем маршрут для рендеринга этого компонента, мы собираемся указать ему, чтобы он анализировал вторую часть URL-адреса как переменную с именем postId, и мы можем прочитать это значение из match.params:
+import { PostAuthor } from './postAuthor'
+import { TimeAgo } from './TimeAgo'
+import { ReactionButtons } from './ReactionButtons'
+import { selectPostById } from './postsSlice'
 
 export const SinglePostPage = ({ match }) => {
   const { postId } = match.params
 
-  //Получив значение postId, мы можем использовать его внутри функции useSelector, чтобы найти нужный объект post из  store. Мы знаем, что state.posts должен быть массивом всех post-объектов, поэтому мы можем использовать функцию Array.find (), чтобы перебирать массив и возвращать post-запись с ID, который мы ищем:
-
-  const post = useSelector((state) =>
-    state.posts.find((post) => post.id === postId)
-  )
-  //Возможно, у нас может не быть post записи в store - возможно, пользователь попытался ввести URL-адрес напрямую, или у нас не загружены нужные данные. Если это произойдет, функция find () вернет undefined вместо фактического объекта post. Наш компонент должен это проверить и обработать, показывая сообщение "Сообщение не найдено!" на странице:
+  const post = useSelector((state) => selectPostById(state, postId))
 
   if (!post) {
     return (
@@ -23,16 +20,19 @@ export const SinglePostPage = ({ match }) => {
     )
   }
 
-  //То, что должно вернуться, когда все работает:
   return (
     <section>
       <article className="post">
         <h2>{post.title}</h2>
+        <div>
+          <PostAuthor userId={post.user} />
+          <TimeAgo timestamp={post.date} />
+        </div>
         <p className="post-content">{post.content}</p>
+        <ReactionButtons post={post} />
         <Link to={`/editPost/${post.id}`} className="button">
           Edit Post
         </Link>
-        <PostAuthor userId={post.user} />
       </article>
     </section>
   )
