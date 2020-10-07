@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 //Реакт роутер передает объект {match} как свойство, содержащее URL, который нам нужен. Когда мы настраиваем маршрут для рендеринга этого компонента, мы собираемся указать ему, чтобы он анализировал вторую часть URL-адреса как переменную с именем postId, и мы можем прочитать это значение из match.params:
 
@@ -27,6 +28,9 @@ export const SinglePostPage = ({ match }) => {
       <article className="post">
         <h2>{post.title}</h2>
         <p className="post-content">{post.content}</p>
+        <Link to={`/editPost/${post.id}`} className="button">
+          Edit Post
+        </Link>
       </article>
     </section>
   )

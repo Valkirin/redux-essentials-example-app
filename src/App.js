@@ -9,7 +9,7 @@ import {
 import { Navbar } from './app/Navbar'
 import { PostsList } from './app/feautures/posts/PostsList'
 import { AddPostForm } from './app/feautures/posts/AddPostForm'
-import { SinglePostPage } from './features/posts/SinglePostPage'
+import { SinglePostPage } from './app/feautures/posts/SinglePostPage'
 
 function App() {
   return (

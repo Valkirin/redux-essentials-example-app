@@ -20,31 +20,17 @@ const postsSlice = createSlice({
     postAdded: (state, action) => {
       state.push(action.payload)
     },
+    postUpdated(state, action) {
+      const { id, title, content } = action.payload
+      const existingPost = state.find((post) => post.id === id)
+      if (existingPost) {
+        existingPost.title = title
+        existingPost.content = content
+      }
+    },
   },
 })
 
-export const { postAdded } = postsSlice.actions
+export const { postAdded, postUpdated } = postsSlice.actions
 
 export default postsSlice.reducer
-
-// export const counterSlice = createSlice({
-//     name: 'counter',
-//     initialState: {
-//       value: 0
-//     },
-//     reducers: {
-//       increment: state => {
-//         state.value += 1
-//       },
-//       decrement: state => {
-//         state.value -= 1
-//       },
-//       incrementByAmount: (state, action) => {
-//         state.value += action.payload
-//       }
-//     }
-//   })
-
-//   export const { increment, decrement, incrementByAmount } = counterSlice.actions
-
-//   export default counterSlice.reducer
